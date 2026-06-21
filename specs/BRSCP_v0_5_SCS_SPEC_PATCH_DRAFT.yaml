@@ -1,0 +1,46 @@
+G4G5_JUDGE_ARCHITECTURE:
+  canonical: independent_multi_agent_judge
+  forbidden:
+    - same_instance_final_complete_for_non_trivial_tasks
+  deterministic_preconditions:
+    - g3_evidence_validation_passed
+    - frozen_task_spec_available
+    - evidence_bundle_hashable
+  conflict_posture: conservative_veto_with_validity_filter
+
+JUDGE_INDEPENDENCE:
+  same_running_instance_score: 0.0
+  same_base_model_separate_instance_max_score: 0.78
+  minimum_normal_task: 0.75
+  minimum_high_risk_task: 0.85
+  score_formula:
+    model_diversity: 0.20
+    context_isolation: 0.20
+    role_separation: 0.15
+    evidence_immutability: 0.15
+    task_spec_immutability: 0.10
+    prompt_adversariality: 0.10
+    verdict_traceability: 0.10
+
+CONSENSUS_RULE:
+  name: conservative_veto_with_validity_filter
+  complete_requires:
+    - g3_passed
+    - independent_judge_complete
+    - no_valid_material_blocker
+    - independence_threshold_met
+    - externally_checkable_evidence
+  repeated_disagreement_loops_before_escalation: 2
+
+BRSCP_GOVERNANCE_POSITION:
+  parent: AGR
+  substrate: SIC-JS
+  hard_constraints: Babel/BAP
+  direct_evidence_layer:
+    - artifacts
+    - commands
+    - logs
+    - hashes
+  s_star_policy:
+    role: caution_or_escalation_signal_only
+    not_a_completion_proof: true

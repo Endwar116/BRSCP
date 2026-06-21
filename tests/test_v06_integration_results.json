@@ -1,0 +1,37 @@
+{
+  "test": "brscp_v06_integration",
+  "passed": 6,
+  "total": 6,
+  "cases": [
+    {
+      "name": "A legacy→SKIPPED+COMPLETE",
+      "ok": true,
+      "detail": "COMPLETE | ['ISAG-1-pre-freeze:SKIPPED(no raw_user_request)', 'TIG:LOCKED(1f/1file)', 'ECG:SKIPPED(no evidence_bundle)', 'ISAG-2-pre-closure:SKIPPED(no raw_user_request)', 'JIIG:SKIPPED(no judge_io)', 'TIG:INTACT']"
+    },
+    {
+      "name": "B good→gates ran+COMPLETE",
+      "ok": true,
+      "detail": "COMPLETE | ['ISAG-1-pre-freeze:ALIGNED', 'TIG:LOCKED(9f/1file)', 'ECG:PASS(score=1.0)', 'ISAG-2-pre-closure:ALIGNED', 'JIIG:PASS', 'TIG:INTACT']"
+    },
+    {
+      "name": "C sandbag→ISAG-1 blocks",
+      "ok": true,
+      "detail": "CONTINUE/ISAG-1-pre-freeze | ['ISAG-1-pre-freeze:MISALIGNED']"
+    },
+    {
+      "name": "D hollow→ECG blocks",
+      "ok": true,
+      "detail": "CONTINUE/ECG | ['ISAG-1-pre-freeze:ALIGNED', 'TIG:LOCKED(1f/1file)', 'ECG:FAIL(score=0.333)']"
+    },
+    {
+      "name": "E tamper→JIIG blocks",
+      "ok": true,
+      "detail": "ESCALATE/JIIG | ['ISAG-1-pre-freeze:ALIGNED', 'TIG:LOCKED(9f/1file)', 'ECG:PASS(score=1.0)', 'ISAG-2-pre-closure:ALIGNED', 'JIIG:ESCALATE']"
+    },
+    {
+      "name": "F post-gate tamper→TIG blocks",
+      "ok": true,
+      "detail": "ESCALATE/TIG | ['ISAG-1-pre-freeze:SKIPPED(no raw_user_request)', 'TIG:LOCKED(1f/1file)', 'ECG:SKIPPED(no evidence_bundle)', 'ISAG-2-pre-closure:SKIPPED(no raw_user_request)', 'JIIG:SKIPPED(no judge_io)', 'TIG:TAMPERED']"
+    }
+  ]
+}

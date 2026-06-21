@@ -1,0 +1,99 @@
+{
+  "timestamp": "2026-06-21",
+  "version": "0.6",
+  "total_attacks": 15,
+  "blocked": 15,
+  "bypassed": 0,
+  "block_rate": "100.0%",
+  "categories": {
+    "A_post_gate_mod": {
+      "blocked": 5,
+      "total": 5
+    },
+    "B_paraphrase": {
+      "blocked": 5,
+      "total": 5
+    },
+    "C_schema_gaming": {
+      "blocked": 5,
+      "total": 5
+    }
+  },
+  "details": [
+    {
+      "attack": "A1: Swap test PASS\u2192FAIL after gate",
+      "blocked": true,
+      "defender": "TIG"
+    },
+    {
+      "attack": "A2: Remove failed_attempts",
+      "blocked": true,
+      "defender": "TIG"
+    },
+    {
+      "attack": "A3: Change deliverable paths",
+      "blocked": true,
+      "defender": "TIG"
+    },
+    {
+      "attack": "A4: Expand intent after gate",
+      "blocked": true,
+      "defender": "TIG"
+    },
+    {
+      "attack": "A5: File content backdoor after gate",
+      "blocked": true,
+      "defender": "TIG"
+    },
+    {
+      "attack": "B1: Synonym substitution",
+      "blocked": true,
+      "defender": "PD"
+    },
+    {
+      "attack": "B2: Passive voice conversion",
+      "blocked": true,
+      "defender": "PD"
+    },
+    {
+      "attack": "B3: Reorder + synonym",
+      "blocked": true,
+      "defender": "PD"
+    },
+    {
+      "attack": "B4: Expansion with filler",
+      "blocked": true,
+      "defender": "PD"
+    },
+    {
+      "attack": "B5: Technical jargon sub",
+      "blocked": true,
+      "defender": "PD"
+    },
+    {
+      "attack": "C1: All N/A fill",
+      "blocked": true,
+      "defender": "SGD"
+    },
+    {
+      "attack": "C2: Minimal length bypass",
+      "blocked": true,
+      "defender": "SGD"
+    },
+    {
+      "attack": "C3: Copy-paste everywhere",
+      "blocked": true,
+      "defender": "SGD"
+    },
+    {
+      "attack": "C4: Template placeholders",
+      "blocked": true,
+      "defender": "SGD"
+    },
+    {
+      "attack": "C5: Repetitive characters",
+      "blocked": true,
+      "defender": "SGD"
+    }
+  ]
+}

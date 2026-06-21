@@ -1,0 +1,262 @@
+# BRSCP v0.6 Three Gates Spec
+# Generated: 2026-06-21T14:20:00+08:00
+# Status: SPEC_DRAFT_WITH_LOCAL_DOGFOOD_EVIDENCE; not production-ready.
+
+version: brscp_v0.6_three_gates_draft
+core_principle: "誰想完成，誰就不能單獨定義完成。"
+positioning:
+  layer: closure_governance_pre_judge_layer
+  extends: brscp_v0.5
+  relationship_to_v05:
+    v05_solves: [judge_architecture, judge_independence, conservative_veto, governance_position]
+    v06_adds: [evidence_capture_gate, intent_spec_alignment_gate, judge_input_integrity_gate]
+
+pipeline_insertion:
+  proposed_flow:
+    - SJL_context_mount
+    - TSIG_initial_task_spec_draft
+    - G2A_intent_spec_alignment_prelock
+    - task_spec_freeze
+    - Execute
+    - G1_evidence_capture_continuous
+    - G1_evidence_bundle_freeze
+    - G3_deterministic_validation
+    - G3A_intent_spec_alignment_preclosure
+    - G4A_judge_input_integrity
+    - G4G5_independent_judge
+    - consensus_or_conservative_veto
+    - G6_final_closure_gate
+    - SICJS_handoff_commit
+  rationale:
+    G2A: "Gate 2 must run both before task_spec freeze and before closure, because sandbagging can happen at task definition and during acceptance."
+    G1: "Evidence capture must be continuous and must freeze before G3/G4G5 so judge cannot receive executor-curated summaries only."
+    G4A: "Judge input must be assembled by the protocol from frozen evidence, not by executor final answer."
+
+gates:
+  evidence_capture_gate:
+    id: G1_ECG
+    purpose: "Prevent executor-curated evidence bundles and selective truth presentation."
+    input:
+      - raw_user_request
+      - conversation_or_task_log
+      - runtime_artifact_events
+      - command_events
+      - file_system_snapshot
+      - executor_final_answer
+    operation:
+      - capture_raw_inputs_before_executor_summary
+      - compute_hashes_for_task_spec_and_artifacts
+      - capture_command_stdout_stderr_exit_codes
+      - require_failed_attempts_log
+      - require_omitted_evidence_declaration
+      - freeze_evidence_bundle_before_judge
+    evidence_bundle_schema:
+      raw_user_request:
+        type: string
+        required: true
+        immutable: true
+        producer: user_or_protocol_capture
+        executor_may_modify: false
+        verification: "hash and preserve exact text or mounted file pointer"
+      raw_task_materials:
+        type: array
+        required: true
+        immutable: true
+        producer: protocol_capture
+        executor_may_modify: false
+        verification: "file inventory plus sha256"
+      frozen_task_spec:
+        type: object
+        required: true
+        immutable: true
+        producer: tsig_plus_alignment_gate
+        executor_may_modify: false_after_freeze
+        verification: "canonical_json_hash or yaml_hash"
+      deliverables_manifest:
+        type: array
+        required: true
+        immutable: false_until_commit
+        producer: executor_with_protocol_verification
+        executor_may_modify: true_before_freeze
+        verification: "each declared deliverable must map to actual path/hash or command output"
+      file_hashes:
+        type: object
+        required: true
+        immutable: true
+        producer: protocol_or_verifier
+        executor_may_modify: false
+        verification: "sha256 recomputed from filesystem"
+      command_log:
+        type: array
+        required: true
+        immutable: true
+        producer: protocol_runner
+        executor_may_modify: false
+        verification: "command, cwd, exit_code, stdout, stderr, timestamp"
+      validator_output:
+        type: array
+        required: true
+        immutable: true
+        producer: verifier
+        executor_may_modify: false
+        verification: "validator ID, input hash, result, exit_code"
+      failed_attempts:
+        type: array
+        required: true
+        immutable: append_only
+        producer: protocol_runner_or_executor_append_only
+        executor_may_modify: append_only_no_delete
+        verification: "failed command events and failed gate events are auto-captured; empty list requires explicit zero_failed_attempts_attestation"
+      known_limitations:
+        type: array
+        required: true
+        immutable: append_only
+        producer: executor_and_red_team
+        executor_may_modify: append_only_no_delete
+        verification: "must be shown to judge; cannot be hidden by final summary"
+      omitted_evidence_declaration:
+        type: array
+        required: true
+        immutable: append_only
+        producer: executor_and_protocol
+        executor_may_modify: append_only_no_delete
+        verification: "must list inaccessible files, skipped commands, excluded logs, unavailable external validation"
+      evidence_bundle_hash:
+        type: string
+        required: true
+        immutable: true
+        producer: protocol
+        executor_may_modify: false
+        verification: "sha256 over canonical bundle"
+    blocker_rules:
+      material_blockers:
+        - raw_user_request_missing
+        - frozen_task_spec_missing_or_modified_after_freeze
+        - required_deliverable_has_no_external_anchor
+        - command_log_missing_for_claimed_executable_validation
+        - failed_attempts_absent_without_zero_failed_attempts_attestation
+        - omitted_evidence_declaration_missing
+        - evidence_bundle_hash_not_reproducible
+      non_material_findings:
+        - optional_artifact_missing_with_declared_scope_exclusion
+        - formatting_inconsistency_without_semantic_or_validation_effect
+    next_action:
+      on_material_blocker: CONTINUE_FOR_EVIDENCE_COMPLETION
+      on_suspected_tampering: ESCALATE
+      on_pass: FREEZE_AND_PROCEED_TO_G3
+
+  intent_spec_alignment_gate:
+    id: G2_ISA
+    purpose: "Prevent task_spec sandbagging and requirement shrinkage."
+    timing: [pre_task_spec_freeze, pre_closure]
+    input:
+      - raw_user_request
+      - extracted_user_requirements
+      - frozen_task_spec
+      - deliverables_manifest
+      - validation_plan
+    operation:
+      - extract_explicit_requirements_from_user_request
+      - classify_requirements_as_objective_semantic_process_scope_artifact_validation
+      - map_each_requirement_to_task_spec_field
+      - map_each_requirement_to_deliverable_or_scope_exclusion
+      - map_each_deliverable_to_validator
+      - compute_alignment_grade
+      - detect_shrinkage_phrases_and_uncovered_modifiers
+    requirement_record_schema:
+      id: string
+      source_quote: string
+      requirement_type: enum[objective, artifact, process, scope, validation, negative_constraint, quality_bar]
+      coverage_status: enum[covered, partially_covered, excluded_with_reason, missing]
+      task_spec_ref: string
+      deliverable_ref: string
+      validator_ref: string
+      materiality: enum[material, non_material]
+    alignment_rules:
+      complete_allowed_only_if:
+        - every_material_explicit_requirement_is_covered_or_explicitly_excluded_by_user
+        - every_required_deliverable_has_validator
+        - broad_process_demands_are_operationalized
+        - negative_constraints_are_preserved
+      sandbag_indicators:
+        - user_asks_full_or_complete_but_spec_only_requires_report
+        - user_asks_not_to_prematurely_converge_but_no_redteam_or_alternative_scan_deliverable
+        - user_asks_archive_or_index_but_no_manifest_or_path_inventory_deliverable
+        - user_asks_rerunnable_engineering_but_only_markdown_is_required
+        - user_asks_external_or_real_validation_but spec_accepts_mock_or_proxy_without_label
+    scoring:
+      material_coverage_minimum: 1.0
+      total_coverage_warning_threshold: 0.85
+      any_missing_material_requirement: BLOCK_COMPLETE
+    interface_for_meimei_mechanism_layer:
+      input_json: intent_spec_alignment_request.json
+      output_json: intent_spec_alignment_report.json
+      required_outputs:
+        - extracted_requirements
+        - coverage_matrix
+        - sandbag_findings
+        - material_blockers
+        - recommended_action
+    next_action:
+      on_missing_material_requirement: CONTINUE_REWRITE_TASK_SPEC
+      on_ambiguous_requirement: ESCALATE_OR_ASK_USER
+      on_pass: FREEZE_TASK_SPEC_OR_PROCEED_TO_CLOSURE
+
+  judge_input_integrity_gate:
+    id: G4A_JIIG
+    purpose: "Ensure judge receives frozen raw evidence, not executor-curated summary."
+    input:
+      mandatory_judge_packet:
+        - raw_user_request
+        - frozen_task_spec
+        - intent_spec_alignment_report
+        - frozen_evidence_bundle
+        - deliverables_manifest
+        - file_hash_manifest
+        - command_log
+        - validator_output
+        - failed_attempts
+        - known_limitations
+        - omitted_evidence_declaration
+        - executor_final_answer
+        - previous_verdicts_or_consensus_inputs
+    operation:
+      - assemble_judge_packet_from_protocol_store
+      - verify_evidence_bundle_hash
+      - verify_task_spec_hash
+      - verify_no_judge_packet_field_originates_only_from_executor_summary
+      - attach_required_judge_prompt
+      - record_judge_packet_hash
+    required_judge_system_prompt: |
+      You are not evaluating whether the answer is polished or persuasive.
+      You are deciding whether this task has the right to be marked COMPLETE.
+      Treat executor summaries as claims, not evidence.
+      Use the frozen task_spec, raw evidence_bundle, command logs, validator outputs,
+      failed_attempts, known limitations, and omitted evidence declaration as the evidence base.
+      If a material requirement lacks raw evidence, return CONTINUE.
+      If evidence is contradictory, missing, or appears curated, return ESCALATE.
+      COMPLETE is allowed only when closure authority is supported by externally checkable evidence.
+    immutability:
+      task_spec_hash_required: true
+      evidence_bundle_hash_required: true
+      judge_packet_hash_required: true
+      executor_summary_allowed_as_evidence: false
+    next_action:
+      on_missing_mandatory_input: CONTINUE_FOR_JUDGE_PACKET_COMPLETION
+      on_hash_mismatch: ESCALATE_TAMPERING_OR_DRIFT
+      on_pass: PROCEED_TO_G4G5_INDEPENDENT_JUDGE
+
+claim_boundaries:
+  may_claim:
+    - "v0.6 defines executable gate specifications for evidence capture, intent-spec alignment, and judge input integrity."
+    - "local dogfooding evidence bundle was generated and checked against Gate 1."
+  may_not_claim:
+    - "production-ready"
+    - "externally validated"
+    - "statistically calibrated"
+    - "prevents all evidence curation or all sandbagging"
+  open_blockers:
+    - cryptographic_signature_not_implemented
+    - external_judge_not_run
+    - embedding_or_llm_alignment_calibration_not_run
+    - true_multi_agent_runtime_not_exercised

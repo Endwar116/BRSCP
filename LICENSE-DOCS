@@ -1,0 +1,18 @@
+Documentation & Specification License
+=====================================
+
+The contents of docs/ and specs/ (protocol specifications, design documents,
+the BRSCP protocol text, and the Foundation document) are licensed under:
+
+    Creative Commons Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+
+You are free to share and adapt this material for any purpose, even
+commercially, under the condition that you give appropriate credit to:
+
+    Andwar (鄭安驊) / SIC-SIT Project
+    https://github.com/Endwar116
+
+Rationale: BRSCP/SCS aims to become an open protocol standard. Code uses
+Apache 2.0 (patent protection); documentation uses CC BY 4.0 (free citation
+and propagation as a standard).

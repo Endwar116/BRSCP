@@ -1,0 +1,417 @@
+{
+  "test_suite": "TSIG Torture Test v1.0",
+  "timestamp": "2026-06-21T16:57:33+08:00",
+  "version": "1.0.0",
+  "mode": "rule-based (no LLM)",
+  "total": 41,
+  "passed": 41,
+  "failed": 0,
+  "accuracy": 100.0,
+  "grade": "PASS",
+  "threshold": 80.0,
+  "categories": {
+    "A": {
+      "pass": 10,
+      "fail": 0
+    },
+    "B": {
+      "pass": 4,
+      "fail": 0
+    },
+    "C": {
+      "pass": 7,
+      "fail": 0
+    },
+    "D": {
+      "pass": 4,
+      "fail": 0
+    },
+    "E": {
+      "pass": 6,
+      "fail": 0
+    },
+    "F": {
+      "pass": 3,
+      "fail": 0
+    },
+    "G": {
+      "pass": 3,
+      "fail": 0
+    },
+    "H": {
+      "pass": 4,
+      "fail": 0
+    }
+  },
+  "results": [
+    {
+      "test_id": "A01",
+      "category": "A",
+      "description": "Clear Chinese code request",
+      "expected": "task_type=code_gen, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=code_gen, want=code_gen); output_type:✓(got=code, want=code)"
+    },
+    {
+      "test_id": "A02",
+      "category": "A",
+      "description": "Clear English debug request",
+      "expected": "task_type=debug, mode=None",
+      "actual": "task_type=debug, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=debug, want=debug); output_type:✓(got=code, want=code)"
+    },
+    {
+      "test_id": "A03",
+      "category": "A",
+      "description": "Analysis request (Chinese)",
+      "expected": "task_type=analysis, mode=None",
+      "actual": "task_type=analysis, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=analysis, want=analysis); output_type:✓(got=text, want=text)"
+    },
+    {
+      "test_id": "A04",
+      "category": "A",
+      "description": "Documentation request",
+      "expected": "task_type=documentation, mode=None",
+      "actual": "task_type=documentation, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=documentation, want=documentation)"
+    },
+    {
+      "test_id": "A05",
+      "category": "A",
+      "description": "Refactor request",
+      "expected": "task_type=refactor, mode=None",
+      "actual": "task_type=refactor, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=refactor, want=refactor); output_type:✓(got=code, want=code)"
+    },
+    {
+      "test_id": "A06",
+      "category": "A",
+      "description": "Creative design request",
+      "expected": "task_type=creative, mode=None",
+      "actual": "task_type=creative, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=creative, want=creative)"
+    },
+    {
+      "test_id": "A07",
+      "category": "A",
+      "description": "Explanation request",
+      "expected": "task_type=explain, mode=None",
+      "actual": "task_type=explain, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=explain, want=explain)"
+    },
+    {
+      "test_id": "A08",
+      "category": "A",
+      "description": "Integration request",
+      "expected": "task_type=integration, mode=None",
+      "actual": "task_type=integration, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=integration, want=integration); output_type:✓(got=mixed, want=mixed)"
+    },
+    {
+      "test_id": "A09",
+      "category": "A",
+      "description": "File operation request",
+      "expected": "task_type=documentation, mode=None",
+      "actual": "task_type=documentation, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=documentation, want=documentation); output_type:✓(got=file, want=file)"
+    },
+    {
+      "test_id": "A10",
+      "category": "A",
+      "description": "English code generation",
+      "expected": "task_type=code_gen, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=code_gen, want=code_gen); output_type:✓(got=code, want=code)"
+    },
+    {
+      "test_id": "B01",
+      "category": "B",
+      "description": "Explicit file output mention",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=documentation, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "deliverables:✓(got=2, want>=1)"
+    },
+    {
+      "test_id": "B02",
+      "category": "B",
+      "description": "Multiple deliverables in one request",
+      "expected": "task_type=code_gen, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=code_gen, want=code_gen); deliverables:✓(got=2, want>=1)"
+    },
+    {
+      "test_id": "B03",
+      "category": "B",
+      "description": "Implicit deliverable (explanation)",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "deliverables:✓(got=1, want>=1)"
+    },
+    {
+      "test_id": "B04",
+      "category": "B",
+      "description": "Verification-heavy request",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "deliverables:✓(got=1, want>=1)"
+    },
+    {
+      "test_id": "C01",
+      "category": "C",
+      "description": "Empty conversation",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=MINIMAL, conf=0.00",
+      "passed": true,
+      "details": "confidence:✓(got=0.00, want=[0.0,0.0]); error_expected:✓(expected error, got confidence=0.0)"
+    },
+    {
+      "test_id": "C02",
+      "category": "C",
+      "description": "Only greeting",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=MINIMAL, conf=0.00",
+      "passed": true,
+      "details": "confidence:✓(got=0.00, want=[0.0,0.0]); error_expected:✓(expected error, got confidence=0.0)"
+    },
+    {
+      "test_id": "C03",
+      "category": "C",
+      "description": "Single character input",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=MINIMAL, conf=0.00",
+      "passed": true,
+      "details": "confidence:✓(got=0.00, want=[0.0,0.0]); error_expected:✓(expected error, got confidence=0.0)"
+    },
+    {
+      "test_id": "C04",
+      "category": "C",
+      "description": "Very long input (1000+ chars)",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=analysis, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "confidence:✓(got=0.55, want=[0.3,1.0])"
+    },
+    {
+      "test_id": "C05",
+      "category": "C",
+      "description": "Unicode special characters",
+      "expected": "task_type=debug, mode=None",
+      "actual": "task_type=debug, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=debug, want=debug)"
+    },
+    {
+      "test_id": "C06",
+      "category": "C",
+      "description": "Only whitespace",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=MINIMAL, conf=0.00",
+      "passed": true,
+      "details": "error_expected:✓(expected error, got confidence=0.0)"
+    },
+    {
+      "test_id": "C07",
+      "category": "C",
+      "description": "Multiple user messages",
+      "expected": "task_type=code_gen, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=code_gen, want=code_gen)"
+    },
+    {
+      "test_id": "D01",
+      "category": "D",
+      "description": "Mixed Chinese-English",
+      "expected": "task_type=debug, mode=None",
+      "actual": "task_type=debug, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=debug, want=debug)"
+    },
+    {
+      "test_id": "D02",
+      "category": "D",
+      "description": "Japanese request",
+      "expected": "task_type=analysis, mode=None",
+      "actual": "task_type=analysis, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=analysis, want=analysis)"
+    },
+    {
+      "test_id": "D03",
+      "category": "D",
+      "description": "Code-switching mid-sentence",
+      "expected": "task_type=code_gen, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=code_gen, want=code_gen)"
+    },
+    {
+      "test_id": "D04",
+      "category": "D",
+      "description": "Technical English with Chinese context",
+      "expected": "task_type=code_gen, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=code_gen, want=code_gen)"
+    },
+    {
+      "test_id": "E01",
+      "category": "E",
+      "description": "Prompt injection attempt",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "confidence:✓(got=0.55, want=[0.3,0.7])"
+    },
+    {
+      "test_id": "E02",
+      "category": "E",
+      "description": "Contradictory request",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "confidence:✓(got=0.55, want=[0.3,0.7])"
+    },
+    {
+      "test_id": "E03",
+      "category": "E",
+      "description": "Nested quotes (JSON injection)",
+      "expected": "task_type=debug, mode=None",
+      "actual": "task_type=debug, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=debug, want=debug)"
+    },
+    {
+      "test_id": "E04",
+      "category": "E",
+      "description": "Very ambiguous request",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=MINIMAL, conf=0.00",
+      "passed": true,
+      "details": "confidence:✓(got=0.00, want=[0.0,0.6])"
+    },
+    {
+      "test_id": "E05",
+      "category": "E",
+      "description": "Misdirection",
+      "expected": "task_type=analysis, mode=None",
+      "actual": "task_type=analysis, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=analysis, want=analysis)"
+    },
+    {
+      "test_id": "E06",
+      "category": "E",
+      "description": "Role confusion",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "confidence:✓(got=0.55, want=[0.3,0.7])"
+    },
+    {
+      "test_id": "F01",
+      "category": "F",
+      "description": "Crystal clear request",
+      "expected": "task_type=code_gen, mode=None",
+      "actual": "task_type=code_gen, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "task_type:✓(got=code_gen, want=code_gen); confidence:✓(got=0.55, want=[0.4,1.0])"
+    },
+    {
+      "test_id": "F02",
+      "category": "F",
+      "description": "Vague request",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=MINIMAL, conf=0.55",
+      "passed": true,
+      "details": "confidence:✓(got=0.55, want=[0.0,0.6])"
+    },
+    {
+      "test_id": "F03",
+      "category": "F",
+      "description": "Medium clarity request",
+      "expected": "task_type=None, mode=None",
+      "actual": "task_type=general, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "confidence:✓(got=0.55, want=[0.3,0.7])"
+    },
+    {
+      "test_id": "G01",
+      "category": "G",
+      "description": "Serialization roundtrip",
+      "expected": "identical after roundtrip",
+      "actual": "intent_match=True",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "test_id": "G02",
+      "category": "G",
+      "description": "Corrupted JSON handling",
+      "expected": "exception on invalid data",
+      "actual": "raised=True",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "test_id": "G03",
+      "category": "G",
+      "description": "Unicode serialization",
+      "expected": "unicode preserved",
+      "actual": "match=True",
+      "passed": true,
+      "details": ""
+    },
+    {
+      "test_id": "H01",
+      "category": "H",
+      "description": "No SIC-JS, long message → DEGRADED",
+      "expected": "task_type=None, mode=DEGRADED",
+      "actual": "task_type=general, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "mode:✓(got=DEGRADED, want=DEGRADED)"
+    },
+    {
+      "test_id": "H02",
+      "category": "H",
+      "description": "No SIC-JS, short message → MINIMAL",
+      "expected": "task_type=None, mode=MINIMAL",
+      "actual": "task_type=general, mode=MINIMAL, conf=0.00",
+      "passed": true,
+      "details": "mode:✓(got=MINIMAL, want=MINIMAL)"
+    },
+    {
+      "test_id": "H03",
+      "category": "H",
+      "description": "With SIC-JS path → FULL",
+      "expected": "task_type=None, mode=FULL",
+      "actual": "task_type=analysis, mode=FULL, conf=0.55",
+      "passed": true,
+      "details": "mode:✓(got=FULL, want=FULL)"
+    },
+    {
+      "test_id": "H04",
+      "category": "H",
+      "description": "SIC-JS path doesn't exist → fallback",
+      "expected": "task_type=None, mode=DEGRADED",
+      "actual": "task_type=analysis, mode=DEGRADED, conf=0.55",
+      "passed": true,
+      "details": "mode:✓(got=DEGRADED, want=DEGRADED)"
+    }
+  ]
+}
