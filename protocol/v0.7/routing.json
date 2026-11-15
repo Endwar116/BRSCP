@@ -1,0 +1,58 @@
+{
+  "_comment": "BRSCP v0.7 路由表唯一真相。協議文字與檢查程式都以此為準，避免 spec drift。",
+  "version": "0.7",
+  "terminal_states": ["complete", "continue", "escalate"],
+  "routing": {
+    "G1_intent": {
+      "aligned": "PASS",
+      "deviated_fixable": "continue",
+      "intent_self_contradictory": "escalate"
+    },
+    "G2_pending": {
+      "none_pending": "PASS",
+      "has_pending_doable": "continue",
+      "blocked_externally": "escalate"
+    },
+    "G3_evidence": {
+      "has_evidence": "PASS",
+      "missing_but_obtainable": "continue",
+      "unobtainable": "escalate"
+    },
+    "G4G5_redteam": {
+      "fewer_than_3_flaws": "continue",
+      "flaws_non_fatal": "PASS",
+      "flaws_fatal_fixable": "continue",
+      "flaws_fatal_unfixable": "escalate"
+    },
+    "G6_confidence": {
+      "confident": "PASS",
+      "not_confident_verifiable": "continue",
+      "not_confident_unverifiable": "escalate"
+    },
+    "closure": {
+      "no_material_change": "complete",
+      "material_change": "continue"
+    }
+  },
+  "escalate_entries": [
+    {"name": "任務本身不可能",   "requires_retry": false},
+    {"name": "缺乏達成所需條件", "requires_retry": false},
+    {"name": "需要人的價值裁定", "requires_retry": false},
+    {"name": "重試後仍失敗",     "requires_retry": true}
+  ],
+  "burden_of_proof": {
+    "complete": "每一項標準都能舉出證據",
+    "escalate": "必須寫出：①試過什麼 ②為何不通 ③需要誰提供什麼",
+    "_rationale": "兩個終止狀態都要付舉證成本，避免 escalate 變成偷懶的逃生口"
+  },
+  "classification_burden": {
+    "unfixable": "附上試過哪幾條路、每條為何不通",
+    "non_fatal": "說明為何不影響 deliverable 達成",
+    "_rationale": "v0.7 把自評點從『致命與否』搬到『可修與否』，用舉證要求提高作假成本（未消滅，見 CHANGELOG）"
+  },
+  "single_turn": {
+    "continue_semantics": "在本次回應內續做，做完重跑檢查",
+    "continue_overflow": "本次回應內做不完 → 降級 escalate",
+    "forbidden": "標 continue 後直接結束回應"
+  }
+}

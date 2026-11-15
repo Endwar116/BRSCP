@@ -1,0 +1,38 @@
+{
+ "what": "BRSCP 第二部分預先登錄凍結",
+ "frozen_at": "2026-10-18T00:59:24+08:00",
+ "frozen_by": "協德",
+ "files": {
+  "00_預先登錄.md": {
+   "sha256": "17fe49900e661df9d7b157f75852b0f35ce7522da949423cc5255a4387bca31d"
+  },
+  "run_part2.py": {
+   "sha256": "833f9ef6fb1c20565df61341a4f1df011c354b5a351f6b2ea03f10a50b61d76b"
+  },
+  "data/META_M51-M100.json": {
+   "sha256": "50afd3e90f314126eafee82f592685e4c94e287c6de8352a8e5e0c8b5a1beefa"
+  },
+  "data/probe_part2.jsonl": {
+   "sha256": "8e7736dbeb9e1870df3b3659c1b91fcd3be21ffff5d67be9a76a635cbb4b97d2"
+  },
+  "pool_A_sicjs.txt": {
+   "sha256": "33f491cb07c8a33129a9ad4fe24f51b1ae19eeb09dc5ae309db2c265c6c47606"
+  },
+  "pool_B_natural.txt": {
+   "sha256": "49f0ca2fe9830403960be6d7416012dc7eae21d3b137bca92af44536081dab88"
+  },
+  "META_GROUND_TRUTH.json": {
+   "sha256": "453ba8e1a2bef2d70fd2ebaddb6cd5e052679a04688eddfd7796557bb80870c8"
+  },
+  "run_accept.py（凍結 runner）": {
+   "sha256": "fbaa3207a40886ffaa9090911d112d64ec5afd47cc62fa3d1589bf9f5471a743"
+  },
+  "tiers/G.md": {
+   "sha256": "d552c615500879bbc68549aaef6710c3513677a8ef47f3f911aa92d19ed227db"
+  },
+  "tiers/primer_poolA.txt": {
+   "sha256": "edb5a6ece258c40ddbc861303873cd6483734b21f949ccebdadd8719c24726f8"
+  }
+ },
+ "_public_note": "sha256 是內部未去識別原檔的雜湊。公開副本的 00_預先登錄.md 與 run_part2.py 換掉了內部路徑與暱稱，雜湊會不同；替換次數見 REDACTION_LOG.md。tiers/G.md 與 tiers/primer_poolA.txt 未改，可直接對 protocol/v1.0-rc1/ 驗。"
+}

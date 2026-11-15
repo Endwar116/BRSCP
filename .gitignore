@@ -10,3 +10,6 @@ venv/
 build/
 dist/
 *.results.json.tmp
+
+# state_machine_check.py writes this when run
+protocol/v0.7/closure_check_results.json
